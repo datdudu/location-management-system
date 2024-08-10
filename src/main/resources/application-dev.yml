@@ -1,0 +1,25 @@
+spring:
+  config:
+    activate:
+      on-profile: dev
+  datasource:
+    url: jdbc:h2:mem:pavscanDB
+    username: sa
+    password:
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+        jdbc:
+          time_zone: UTC
+  servlet:
+    multipart:
+      max-file-size: 15MB
+      max-request-size: 15MB
+api:
+  security:
+    token:
+      secret: ${JWT_SECRET:12345678}

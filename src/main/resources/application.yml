@@ -1,0 +1,11 @@
+spring:
+  profiles:
+    active: dev # Setting the default profile to dev
+api:
+  security:
+    token:
+      secret: ${JWT_SECRET:12345678}
+
+python:
+  app:
+    url: http://appPython:8000
