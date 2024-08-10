@@ -3,7 +3,7 @@ spring:
     activate:
       on-profile: prod
   datasource:
-    url: jdbc:postgresql://localhost:5432/pavscanDB
+    url: jdbc:postgresql://localhost:5432/locationDB
     username: postgres
     password: admin
     driver-class-name: org.postgresql.Driver
