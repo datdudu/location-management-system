@@ -17,7 +17,7 @@ services:
       - SPRING_PROFILES_ACTIVE=prod
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=admin
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/pavscanDB
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/locationDB
       - SPRING_DATASOURCE_USERNAME=postgres
       - SPRING_DATASOURCE_PASSWORD=admin
       - SPRING_JPA_HIBERNATE_DDL_AUTO=update
@@ -36,7 +36,7 @@ services:
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=admin
-      - POSTGRES_DB=pavscanDB
+      - POSTGRES_DB=locationDB
     networks:
       - shared_network
 

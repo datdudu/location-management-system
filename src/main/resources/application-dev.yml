@@ -3,7 +3,7 @@ spring:
     activate:
       on-profile: dev
   datasource:
-    url: jdbc:h2:mem:pavscanDB
+    url: jdbc:h2:mem:locationDB
     username: sa
     password:
   jpa:
