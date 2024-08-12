@@ -14,6 +14,7 @@ public class LocationEntityMapper {
 
     public Location toDomain(LocationEntity entity){
         return new Location(
+                entity.getId(),
                 entity.getName(),
                 entity.getCity(),
                 entity.getState()

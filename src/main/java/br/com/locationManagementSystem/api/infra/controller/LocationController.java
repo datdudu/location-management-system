@@ -4,8 +4,14 @@ package br.com.locationManagementSystem.api.infra.controller;
 import br.com.locationManagementSystem.api.application.usecases.Location.*;
 import br.com.locationManagementSystem.api.domain.entities.location.Location;
 import br.com.locationManagementSystem.api.infra.controller.Dtos.Location.LocationDto;
+import br.com.locationManagementSystem.api.infra.controller.Dtos.Location.LocationWithIdDto;
+import br.com.locationManagementSystem.api.infra.controller.Dtos.User.UserDto;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -13,6 +19,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @RestController
 @Slf4j
@@ -40,14 +49,31 @@ public class LocationController {
             responses = {
                     @ApiResponse(responseCode = "201", ref = "#/components/responses/Location201Response")
             })
-    public LocationDto createLocation(@RequestBody LocationDto locationDto){
+    public ResponseEntity<LocationWithIdDto> createLocation(@RequestBody LocationDto locationDto){
+        if(locationDto.name().isBlank()) return ResponseEntity.badRequest().build();
+
         Location save = createLocation.createLocation(LocationDto.dtoToDomain(locationDto));
+        return  ResponseEntity.ok(LocationWithIdDto.domainToDto(save));
+    }
 
-        LocalDateTime localDateTime = LocalDateTime.now();
+    @Operation(summary = "Get all the locations", description = "Returns a List with all the locations registered",
+            tags = {"Location"}
+    )
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Successful operation",
+                    content = @Content(mediaType = "application/json",
+                            array = @ArraySchema(schema = @Schema(implementation = LocationWithIdDto.class)))),
+            @ApiResponse(responseCode = "404", description = "Not Found")
+    })
+    @GetMapping("/getAllLocations")
+    @ResponseStatus(HttpStatus.OK)
+    public List<LocationWithIdDto> getAllLocations() {
+        List<Location> locationsRequested = getAllLocations.getAllLocations();
 
-        log.info("Registering a new location" + localDateTime);
-
-        return  LocationDto.domainToDto(save);
+        return locationsRequested
+                .stream()
+                .map(location -> LocationWithIdDto.domainToDto(location))
+                .collect(Collectors.toList());
     }
 
     @Operation(summary = "Get a location by a name", description = "Retrieve a location if it exists by name",
@@ -58,16 +84,12 @@ public class LocationController {
             })
     @GetMapping("{location}")
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<LocationDto> getLocationByName(@PathVariable ( value = "location") String location) {
+    public ResponseEntity<LocationWithIdDto> getLocationByName(@PathVariable ( value = "location") String location) {
         ResponseEntity<Location> locationRequested = getLocationByName.getLocationByName(location);
         if(locationRequested.hasBody()){
-            LocationDto locationDto = LocationDto.domainToDto(locationRequested.getBody());
-            return ResponseEntity.ok(locationDto);
+            LocationWithIdDto locationWithIdDto = LocationWithIdDto.domainToDto(locationRequested.getBody());
+            return ResponseEntity.ok(locationWithIdDto);
         }
-
-        LocalDateTime localDateTime = LocalDateTime.now();
-
-        log.info("Getting a location by name " + localDateTime);
 
         return ResponseEntity.notFound().build();
     }
@@ -80,18 +102,16 @@ public class LocationController {
             })
     @PutMapping("{id}")
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<LocationDto> updateLocation(@RequestBody LocationDto locationDto, @PathVariable(value = "id") Long id){
+    public ResponseEntity<LocationWithIdDto> updateLocation(@RequestBody LocationDto locationDto, @PathVariable(value = "id") Long id){
+        if(locationDto.name().isBlank()) return ResponseEntity.badRequest().build();
+
         Location locationToUpdate = LocationDto.dtoToDomain(locationDto);
 
         Location updatedLocation = updateLocation.updateLocation(locationToUpdate, id).getBody();
 
-        LocationDto locationDtoUpdated = LocationDto.domainToDto(updatedLocation);
+        LocationWithIdDto locationWithIdDtoUpdated = LocationWithIdDto.domainToDto(updatedLocation);
 
-        LocalDateTime localDateTime = LocalDateTime.now();
-
-        log.info("Updating a location " + localDateTime);
-
-        return ResponseEntity.ok(locationDtoUpdated);
+        return ResponseEntity.ok(locationWithIdDtoUpdated);
     }
 
     @Operation(summary = "Delete a location by a Id", description = "Passing a Id, the location related to that Id will be deleted",
@@ -103,11 +123,6 @@ public class LocationController {
     @DeleteMapping("{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public ResponseEntity<Object> deleteLocation(@PathVariable ( value = "id") Long id) {
-
-        LocalDateTime localDateTime = LocalDateTime.now();
-
-        log.info("Deleting a message " + localDateTime);
-
         return deleteLocation.deleteLocation(id);
     }
 }

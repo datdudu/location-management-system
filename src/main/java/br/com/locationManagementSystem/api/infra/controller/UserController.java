@@ -63,10 +63,6 @@ public class UserController {
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
     public List<UserDto> getAllUsers(){
-        LocalDateTime localDateTime = LocalDateTime.now();
-
-        log.info("Showing List of all users " + localDateTime);
-
         return listUsers.listUsers().stream()
                 .map(u -> new UserDto(u.getId(), u.getUsername(),u.getEmail(), u.getFirstName(), u.getLastName()))
                 .collect(Collectors.toList());
@@ -95,10 +91,6 @@ public class UserController {
             return ResponseEntity.ok(userDto);
         }
 
-        LocalDateTime localDateTime = LocalDateTime.now();
-
-        log.info("Getting a user by his Id " + localDateTime);
-
         return ResponseEntity.notFound().build();
     }
 
@@ -125,11 +117,6 @@ public class UserController {
 
             return ResponseEntity.ok(userDto);
         }
-
-        LocalDateTime localDateTime = LocalDateTime.now();
-
-        log.info("Getting a user by his Username " + localDateTime);
-
         return ResponseEntity.notFound().build();
     }
 
@@ -155,10 +142,6 @@ public class UserController {
             return ResponseEntity.ok(userDto);
         }
 
-        LocalDateTime localDateTime = LocalDateTime.now();
-
-        log.info("Getting a user by his Email " + localDateTime);
-
         return ResponseEntity.notFound().build();
     }
 
@@ -178,10 +161,6 @@ public class UserController {
                 userRegistrationDto.password()
         ));
 
-        LocalDateTime localDateTime = LocalDateTime.now();
-
-        log.info("Registering a new user " + localDateTime);
-
         return new UserDto(save.getId(), save.getUsername(),save.getEmail(), save.getFirstName(), save.getLastName());
     }
     @Operation(
@@ -192,10 +171,6 @@ public class UserController {
     @ResponseStatus(HttpStatus.CREATED)
     public RequestResetPasswordDto requestResetPassword(@RequestBody UserEmailDto userEmailDto){
         var user = getUserByEmail.getUserByEmail(userEmailDto.email()).getBody();
-
-        LocalDateTime localDateTime = LocalDateTime.now();
-
-        log.info("Registering a new user " + localDateTime);
 
         return new RequestResetPasswordDto(user.getId(),TokenContext.getToken(), "Link ainda a ser definido");
     }
@@ -217,10 +192,6 @@ public class UserController {
 
         if(userUpdated.getStatusCode().value() == 404) return ResponseEntity.notFound().build();
 
-        LocalDateTime localDateTime = LocalDateTime.now();
-
-        log.info("Updating a user's password " + localDateTime);
-
         return ResponseEntity.ok(userUpdated);
     }
 
@@ -238,10 +209,6 @@ public class UserController {
 
         if(userUpdated.getStatusCode().value() == 404) return ResponseEntity.notFound().build();
 
-        LocalDateTime localDateTime = LocalDateTime.now();
-
-        log.info("Updating a user " + localDateTime);
-
         return ResponseEntity.ok(userUpdated);
     }
 
@@ -254,20 +221,6 @@ public class UserController {
     @DeleteMapping("{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public ResponseEntity<Object> deleteUser(@PathVariable ( value = "id") Long id) {
-
-        LocalDateTime localDateTime = LocalDateTime.now();
-
-        log.info("Deleting a user " + localDateTime);
-
         return deleteUser.deleteUser(id);
-    }
-
-    @GetMapping("/teste")
-    public String teste(){
-        LocalDateTime localDateTime = LocalDateTime.now();
-
-        log.info("Hello World!" + localDateTime);
-
-        return "Hello world!";
     }
 }
