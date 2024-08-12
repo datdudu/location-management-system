@@ -44,10 +44,6 @@ public class AuthenticationController {
         var tokenJWT = tokenService.generateToken((UserEntity) authentication.getPrincipal());
         var refreshJWT = tokenService.generateRefreshToken((UserEntity) authentication.getPrincipal());
 
-        LocalDateTime localDateTime = LocalDateTime.now();
-
-        log.info("Login executed on " + localDateTime);
-
         return ResponseEntity.ok(new TokenDto(tokenJWT, refreshJWT));
     }
 
@@ -64,9 +60,6 @@ public class AuthenticationController {
         if (user.isPresent()) {
             var newAccessToken = tokenService.generateToken(user.get());
             var newRefreshToken = tokenService.generateRefreshToken(user.get());
-
-            LocalDateTime localDateTime = LocalDateTime.now();
-            log.info("Access token refreshed on " + localDateTime);
 
             return ResponseEntity.ok(new TokenDto(newAccessToken, newRefreshToken));
         } else {

@@ -6,6 +6,9 @@ import lombok.Setter;
 import java.time.LocalDateTime;
 
 public class Location {
+    @Getter
+    private Long id;
+
     @Setter
     @Getter
     private String name;
@@ -22,6 +25,13 @@ public class Location {
     private LocalDateTime updatedAt;
 
     public Location(String name, String city, String state) {
+        this.name = name;
+        this.city = city;
+        this.state = state;
+    }
+
+    public Location(Long id, String name, String city, String state) {
+        this.id = id;
         this.name = name;
         this.city = city;
         this.state = state;

@@ -4,6 +4,7 @@ import br.com.locationManagementSystem.api.application.gateways.LocationReposito
 import br.com.locationManagementSystem.api.domain.entities.location.Location;
 import br.com.locationManagementSystem.api.infra.persistence.Location.LocationEntity;
 import br.com.locationManagementSystem.api.infra.persistence.Location.LocationRepositoryInfra;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 
 import java.util.List;
@@ -21,8 +22,8 @@ public class LocationRepositoryJpa implements LocationRepository {
 
     @Override
     public List<Location> getAllLocations() {
-        return repository
-                .findAll().stream()
+        return repository.findAll(Sort.by(Sort.Direction.ASC, "createdAt"))
+                .stream()
                 .map(mapper::toDomain)
                 .collect(Collectors.toList());
     }
