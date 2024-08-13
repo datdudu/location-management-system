@@ -37,7 +37,7 @@ public class AuthenticationController {
                     @ApiResponse(responseCode = "200", ref = "#/components/responses/Authentication200Response"),
             })
     @PostMapping
-    public ResponseEntity executeLogin(@RequestBody @Valid AuthenticationDto data) {
+    public ResponseEntity<TokenDto> executeLogin(@RequestBody @Valid AuthenticationDto data) {
         var token = new UsernamePasswordAuthenticationToken(data.login(), data.password());
         var authentication = manager.authenticate(token);
 
@@ -53,7 +53,7 @@ public class AuthenticationController {
                     @ApiResponse(responseCode = "200", ref = "#/components/responses/Authentication200Response"),
             })
     @PostMapping("/refresh")
-    public ResponseEntity refreshAccessToken(@RequestBody @Valid TokenRefreshDto tokenDto) {
+    public ResponseEntity<Object> refreshAccessToken(@RequestBody @Valid TokenRefreshDto tokenDto) {
         var subject = tokenService.getSubject(tokenDto.refresh());
         var user = userRepository.findByUsernameEntity(subject);
 
