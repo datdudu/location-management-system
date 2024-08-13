@@ -48,7 +48,6 @@ public class UserEntity implements UserDetails {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
-
     public UserEntity(String username, String email, String firstName, String lastName, String password) {
         this.username = username;
         this.email = email;

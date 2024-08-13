@@ -7,6 +7,7 @@ import java.time.LocalDateTime;
 
 public class Location {
     @Getter
+    @Setter
     private Long id;
 
     @Setter
@@ -23,6 +24,9 @@ public class Location {
 
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
+
+    public Location() {
+    }
 
     public Location(String name, String city, String state) {
         this.name = name;

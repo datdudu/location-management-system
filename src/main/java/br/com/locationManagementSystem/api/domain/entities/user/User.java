@@ -19,15 +19,15 @@ public class User {
 
     private String password;
 
-    public User() {
-    }
-
-    public User(String username, String email, String firstName, String lastName, String password) {
+    public User(Long id, String username, String email, String firstName, String lastName) {
+        this.id = id;
         this.username = username;
         this.email = email;
         this.firstName = firstName;
         this.lastName = lastName;
-        this.password = password;
+    }
+
+    public User() {
     }
 
     public User(Long id, String username, String email, String firstName, String lastName, String password) {
@@ -38,6 +38,15 @@ public class User {
         this.lastName = lastName;
         this.password = password;
     }
+
+    public User(String username, String email, String firstName, String lastName, String password) {
+        this.username = username;
+        this.email = email;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.password = password;
+    }
+
 
     public User(String email, String firstName) {
         this.email = email;
