@@ -9,7 +9,7 @@ public interface LocationRepository {
     List<Location> getAllLocations();
     Location createLocation(Location location);
 
-    ResponseEntity<Location> getLocationByName(String name);
+    ResponseEntity<Location> getLocationById(Long id);
 
     ResponseEntity<Location> updateLocation(Location location, Long id);
 

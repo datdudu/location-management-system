@@ -7,6 +7,7 @@ public class LocationEntityMapper {
     public LocationEntity toEntity(Location location){
         return new LocationEntity(
                 location.getName(),
+                location.getNeighborhood(),
                 location.getCity(),
                 location.getState()
         );
@@ -16,6 +17,7 @@ public class LocationEntityMapper {
         return new Location(
                 entity.getId(),
                 entity.getName(),
+                entity.getNeighborhood(),
                 entity.getCity(),
                 entity.getState()
         );

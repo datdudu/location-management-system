@@ -37,11 +37,12 @@ public class LocationRepositoryJpa implements LocationRepository {
     }
 
     @Override
-    public ResponseEntity<Location> getLocationByName(String name) {
-        Optional<LocationEntity> locationEntity = repository.findByName(name);
+    public ResponseEntity<Location> getLocationById(Long id) {
+        Optional<LocationEntity> locationEntity = repository.findById(id);
 
         return locationEntity.map(entity -> ResponseEntity.ok(mapper.toDomain(entity))).orElseGet(() -> ResponseEntity.notFound().build());
     }
+
 
     @Override
     public ResponseEntity<Location> updateLocation(Location location, Long id) {
@@ -49,6 +50,7 @@ public class LocationRepositoryJpa implements LocationRepository {
 
         if(locationEntity.isPresent()){
             locationEntity.get().setName(location.getName());
+            locationEntity.get().setNeighborhood(location.getNeighborhood());
             locationEntity.get().setCity(location.getCity());
             locationEntity.get().setState(location.getState());
 

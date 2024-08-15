@@ -19,8 +19,8 @@ public class LocationConfig {
     }
 
     @Bean
-    GetLocationByName getLocationByName(LocationRepository locationRepository){
-        return new GetLocationByName(locationRepository);
+    GetLocationById getLocationById(LocationRepository locationRepository){
+        return new GetLocationById(locationRepository);
     }
 
     @Bean

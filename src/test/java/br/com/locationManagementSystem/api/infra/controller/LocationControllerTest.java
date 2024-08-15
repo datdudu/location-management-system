@@ -29,7 +29,7 @@ class LocationControllerTest {
     @MockBean
     private UpdateLocation updateLocation;
     @MockBean
-    private GetLocationByName getLocationByName;
+    private GetLocationById getLocationById;
     @MockBean
     private DeleteLocation deleteLocation;
 
@@ -39,17 +39,17 @@ class LocationControllerTest {
         createLocation = mock(CreateLocation.class);
         getAllLocations = mock(GetAllLocations.class);
         updateLocation = mock(UpdateLocation.class);
-        getLocationByName = mock(GetLocationByName.class);
+        getLocationById = mock(GetLocationById.class);
         deleteLocation = mock(DeleteLocation.class);
-        locationController = new LocationController(createLocation, getAllLocations, updateLocation, getLocationByName, deleteLocation);
+        locationController = new LocationController(createLocation, getAllLocations, updateLocation, getLocationById, deleteLocation);
     }
 
     @Test
     void testCreateLocationSuccess() {
         // Given
-        LocationDto locationDto = new LocationDto("New Location", "City", "State");
-        Location location = new Location("New Location", "City", "State");
-        Location savedLocation = new Location(1L, "New Location", "City", "State");
+        LocationDto locationDto = new LocationDto("New Location", "Neighbor","City", "State");
+        Location location = new Location("New Location","Neighbor", "City", "State");
+        Location savedLocation = new Location(1L, "New Location","Neighbor", "City", "State");
 
         when(createLocation.createLocation(LocationDto.dtoToDomain(locationDto))).thenReturn(savedLocation);
 
@@ -64,7 +64,7 @@ class LocationControllerTest {
     @Test
     void testCreateLocationFailure() {
         // Given
-        LocationDto locationDto = new LocationDto("", "City", "State");
+        LocationDto locationDto = new LocationDto("","Neighbor", "City", "State");
 
         // When
         ResponseEntity<LocationWithIdDto> response = locationController.createLocation(locationDto);
@@ -76,7 +76,7 @@ class LocationControllerTest {
     @Test
     void testGetAllLocationsSuccess() {
         // Given
-        Location location = new Location(1L, "Location1", "City1", "State1");
+        Location location = new Location(1L, "Neighboor1", "Location1", "City1", "State1");
         List<Location> locations = List.of(location);
         when(getAllLocations.getAllLocations()).thenReturn(locations);
 
@@ -103,12 +103,12 @@ class LocationControllerTest {
     @Test
     void testGetLocationByNameSuccess() {
         // Given
-        String locationName = "Location1";
-        Location location = new Location(1L, "Location1", "City1", "State1");
-        when(getLocationByName.getLocationByName(locationName)).thenReturn(ResponseEntity.ok(location));
+        Long locationId = 1L;
+        Location location = new Location(1L, "Location1", "Neighbor", "City1", "State1");
+        when(getLocationById.getLocationById(locationId)).thenReturn(ResponseEntity.ok(location));
 
         // When
-        ResponseEntity<LocationWithIdDto> response = locationController.getLocationByName(locationName);
+        ResponseEntity<LocationWithIdDto> response = locationController.getLocationById(locationId);
 
         // Then
         assertEquals(200, response.getStatusCodeValue());
@@ -118,11 +118,11 @@ class LocationControllerTest {
     @Test
     void testGetLocationByNameFailure() {
         // Given
-        String locationName = "NonExistentLocation";
-        when(getLocationByName.getLocationByName(locationName)).thenReturn(ResponseEntity.notFound().build());
+        Long locationId = 0L;
+        when(getLocationById.getLocationById(locationId)).thenReturn(ResponseEntity.notFound().build());
 
         // When
-        ResponseEntity<LocationWithIdDto> response = locationController.getLocationByName(locationName);
+        ResponseEntity<LocationWithIdDto> response = locationController.getLocationById(locationId);
 
         // Then
         assertEquals(404, response.getStatusCodeValue());
@@ -132,8 +132,8 @@ class LocationControllerTest {
     void testUpdateLocationSuccess() {
         // Given
         Long locationId = 1L;
-        LocationDto locationDto = new LocationDto("Updated Location", "City", "State");
-        Location updatedLocation = new Location(locationId, "Updated Location", "City", "State");
+        LocationDto locationDto = new LocationDto("Updated Location", "Neighbor", "City", "State");
+        Location updatedLocation = new Location(locationId, "Updated Location", "Neighbor", "City", "State");
         when(updateLocation.updateLocation(LocationDto.dtoToDomain(locationDto), locationId)).thenReturn(ResponseEntity.ok(updatedLocation));
 
         // When
@@ -148,7 +148,7 @@ class LocationControllerTest {
     void testUpdateLocationFailure() {
         // Given
         Long locationId = 1L;
-        LocationDto locationDto = new LocationDto("", "City", "State");
+        LocationDto locationDto = new LocationDto("", "Neighbor", "City", "State");
 
         // When
         ResponseEntity<LocationWithIdDto> response = locationController.updateLocation(locationDto, locationId);
