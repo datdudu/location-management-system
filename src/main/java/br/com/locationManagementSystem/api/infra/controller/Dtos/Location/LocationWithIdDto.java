@@ -5,6 +5,7 @@ import br.com.locationManagementSystem.api.domain.entities.location.Location;
 public record LocationWithIdDto(
         Long id,
         String name,
+        String neighbothood,
         String city,
         String state) {
 
@@ -12,6 +13,7 @@ public record LocationWithIdDto(
         return new LocationWithIdDto(
                 location.getId(),
                 location.getName(),
+                location.getNeighborhood(),
                 location.getCity(),
                 location.getState()
         );

@@ -44,6 +44,7 @@ public class SpringDocConfig {
                         .addSchemas("LocationDto", new Schema<>()
                                 .type("object")
                                 .addProperty("name", new Schema<>().type("string"))
+                                .addProperty("neighborhood", new Schema<>().type("string"))
                                 .addProperty("city", new Schema<>().type("string"))
                                 .addProperty("state", new Schema<>().type("string"))
                         )

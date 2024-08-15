@@ -28,14 +28,14 @@ public class LocationController {
     private final CreateLocation createLocation;
     private final GetAllLocations getAllLocations;
     private final UpdateLocation updateLocation;
-    private final GetLocationByName getLocationByName;
+    private final GetLocationById getLocationById;
     private final DeleteLocation deleteLocation;
 
-    public LocationController(CreateLocation createLocation, GetAllLocations getAllLocations, UpdateLocation updateLocation, GetLocationByName getLocationByName, DeleteLocation deleteLocation) {
+    public LocationController(CreateLocation createLocation, GetAllLocations getAllLocations, UpdateLocation updateLocation, GetLocationById getLocationById, DeleteLocation deleteLocation) {
         this.createLocation = createLocation;
         this.getAllLocations = getAllLocations;
         this.updateLocation = updateLocation;
-        this.getLocationByName = getLocationByName;
+        this.getLocationById = getLocationById;
         this.deleteLocation = deleteLocation;
     }
 
@@ -73,22 +73,16 @@ public class LocationController {
                 .collect(Collectors.toList());
     }
 
-    @Operation(summary = "Get a location by a name", description = "Retrieve a location if it exists by name",
+    @Operation(summary = "Get a location by an Id", description = "Retrieve a location if it exists by id",
             tags = {"Location"},
             responses = {
                     @ApiResponse(responseCode = "200", ref = "#/components/responses/Location200Response"),
                     @ApiResponse(responseCode = "404", ref = "#/components/responses/404Response")
             })
-    @GetMapping("{location}")
+    @GetMapping("{id}")
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<LocationWithIdDto> getLocationByName(@PathVariable ( value = "location") String location) {
-        ResponseEntity<Location> locationRequested = getLocationByName.getLocationByName(location);
-        if(locationRequested.hasBody()){
-            LocationWithIdDto locationWithIdDto = LocationWithIdDto.domainToDto(locationRequested.getBody());
-            return ResponseEntity.ok(locationWithIdDto);
-        }
-
-        return ResponseEntity.notFound().build();
+    public ResponseEntity<LocationWithIdDto> getLocationById(@PathVariable ( value = "id") Long id) {
+        return new ResponseEntity<LocationWithIdDto>(LocationWithIdDto.domainToDto(getLocationById.getLocationById(id).getBody()), getLocationById.getLocationById(id).getStatusCode());
     }
 
     @Operation(summary = "Updated a location", description = "Giving a Id and a new location, the message location to the id will be updated",

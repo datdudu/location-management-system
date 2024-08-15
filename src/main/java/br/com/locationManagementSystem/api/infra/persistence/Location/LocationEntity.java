@@ -24,6 +24,9 @@ public class LocationEntity {
     private String name;
 
     @Column(nullable = false)
+    private String neighborhood;
+
+    @Column(nullable = false)
     private String city;
 
     @Column(nullable = false)
@@ -41,7 +44,8 @@ public class LocationEntity {
 
     }
 
-    public LocationEntity(String name, String city, String state) {
+    public LocationEntity(String name, String neighborhood, String city, String state) {
+        this.neighborhood = neighborhood;
         this.name = name;
         this.city = city;
         this.state = state;

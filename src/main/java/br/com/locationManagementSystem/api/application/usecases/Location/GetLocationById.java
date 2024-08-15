@@ -4,11 +4,13 @@ import br.com.locationManagementSystem.api.application.gateways.LocationReposito
 import br.com.locationManagementSystem.api.domain.entities.location.Location;
 import org.springframework.http.ResponseEntity;
 
-public class GetLocationByName {
+import java.util.List;
+
+public class GetLocationById {
     private final LocationRepository repository;
 
-    public GetLocationByName(LocationRepository repository){
+    public GetLocationById(LocationRepository repository){
         this.repository = repository;
     }
-    public ResponseEntity<Location> getLocationByName(String message){ return repository.getLocationByName(message); }
+    public ResponseEntity<Location> getLocationById(Long id){ return repository.getLocationById(id); }
 }

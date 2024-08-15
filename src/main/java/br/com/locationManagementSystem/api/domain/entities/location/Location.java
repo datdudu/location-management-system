@@ -16,6 +16,10 @@ public class Location {
 
     @Setter
     @Getter
+    private String neighborhood;
+
+    @Setter
+    @Getter
     private String city;
 
     @Getter
@@ -28,14 +32,16 @@ public class Location {
     public Location() {
     }
 
-    public Location(String name, String city, String state) {
+    public Location(String name, String neighborhood, String city, String state) {
         this.name = name;
+        this.neighborhood = neighborhood;
         this.city = city;
         this.state = state;
     }
 
-    public Location(Long id, String name, String city, String state) {
+    public Location(Long id, String name, String neighborhood, String city, String state) {
         this.id = id;
+        this.neighborhood = neighborhood;
         this.name = name;
         this.city = city;
         this.state = state;
