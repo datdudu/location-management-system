@@ -5,14 +5,12 @@ import br.com.locationManagementSystem.api.application.usecases.Location.*;
 import br.com.locationManagementSystem.api.domain.entities.location.Location;
 import br.com.locationManagementSystem.api.infra.controller.Dtos.Location.LocationDto;
 import br.com.locationManagementSystem.api.infra.controller.Dtos.Location.LocationWithIdDto;
-import br.com.locationManagementSystem.api.infra.controller.Dtos.User.UserDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
-import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,7 +24,6 @@ import java.util.stream.Collectors;
 @RestController
 @Slf4j
 @RequestMapping("/locations")
-@SecurityRequirement(name = "bearer-key")
 public class LocationController {
     private final CreateLocation createLocation;
     private final GetAllLocations getAllLocations;
