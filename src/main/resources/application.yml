@@ -1,7 +1,3 @@
 spring:
   profiles:
-    active: dev # Setting the default profile to dev
-api:
-  security:
-    token:
-      secret: ${JWT_SECRET:12345678}
+    active: prod # Setting the default profile to dev
