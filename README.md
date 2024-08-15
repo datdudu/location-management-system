@@ -72,7 +72,7 @@ mvn test
 #### Documentação 
 - A aplicação com a documentação no swagger estará disponível em `http://localhost:8080/swagger-ui/index.html`.
 - Documentação feita no swagger
-- Para acessar a documentação em Markdown e os Endpoints [clique aqui](https://github.com/datdudu/local-management-java/blob/main/Documentation.md).
+- Para acessar a documentação em Markdown e os Endpoints [clique aqui](https://github.com/datdudu/location-management-system/blob/main/Documentation.md).
 
 
 #### Requisições
