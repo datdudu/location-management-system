@@ -12,17 +12,17 @@ Neste projeto há 3 formas de executar a aplicação e nelas a diferenças nos r
 - Java Development Kit (JDK) versão 21 ou superior
 - Maven
 - git (Opcional)
-- 
+  
 ### MODO PROD
 - Java Development Kit (JDK) versão 21 ou superior
 - Maven
 - Banco PostgreSQL
 - git (Opcional)
-- 
+
 ### MODO DOCKER
 - Docker e docker compose
 - git (Opcional)
-- 
+  
 ## Como Executar:
 
 1. Clone o repositório em sua máquina local:
