@@ -13,6 +13,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -82,7 +83,10 @@ public class LocationController {
     @GetMapping("{id}")
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<LocationWithIdDto> getLocationById(@PathVariable ( value = "id") Long id) {
-        return new ResponseEntity<LocationWithIdDto>(LocationWithIdDto.domainToDto(getLocationById.getLocationById(id).getBody()), getLocationById.getLocationById(id).getStatusCode());
+        ResponseEntity<Location> locationRequested = getLocationById.getLocationById(id);
+        if(locationRequested.getStatusCode() == HttpStatus.NOT_FOUND) return ResponseEntity.notFound().build();
+
+        return ResponseEntity.ok(LocationWithIdDto.domainToDto(locationRequested.getBody()));
     }
 
     @Operation(summary = "Updated a location", description = "Giving a Id and a new location, the message location to the id will be updated",
